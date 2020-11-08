@@ -1,17 +1,22 @@
 package ohtu.verkkokauppa;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
 public class Kauppa {
 
     private InterfVarasto varasto;
     private InterfPankki pankki;
-    private Ostoskori ostoskori;
+    private Ostoskori ostoskori;    
     private InterfViitegeneraattori viitegeneraattori;
     private String kaupanTili;
 
-    public Kauppa(InterfVarasto varasto, InterfPankki pankki, InterfViitegeneraattori viitegeneraattori) {
+    @Autowired
+    public Kauppa(InterfVarasto varasto, InterfPankki pankki, InterfViitegeneraattori gen) {
+        this.viitegeneraattori = gen;
         this.varasto = varasto;
         this.pankki = pankki;
-        this.viitegeneraattori = viitegeneraattori;
         kaupanTili = "33333-44455";
     }
 
