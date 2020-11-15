@@ -1,7 +1,7 @@
 
 package ohtu;
 
-public class Player {
+public class Player implements Comparable<Player> {
     private String name;
     private String nationality;
     private String team;
@@ -52,9 +52,18 @@ public class Player {
         return assists;
     }
 
+    public int getPoints() {
+        return goals + assists;
+    }
+
     @Override
     public String toString() {
-        return name + " " + team + " " + " goals " + goals + " assists " + assists;
+        return name + " " + team + " " + goals + " + " + assists + " = " + this.getPoints();
+    }
+
+    @Override
+    public int compareTo(Player player) {
+        return player.getPoints() - this.getPoints();
     }
       
 }
