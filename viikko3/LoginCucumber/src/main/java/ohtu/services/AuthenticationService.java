@@ -3,6 +3,7 @@ package ohtu.services;
 import ohtu.domain.User;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.Character;
 import ohtu.data_access.UserDao;
 
 public class AuthenticationService {
@@ -39,8 +40,24 @@ public class AuthenticationService {
     }
 
     private boolean invalid(String username, String password) {
-        // validity check of username and password
+        
+        if(username.length() < 3 || password.length() < 8) {
+            return true;
+        } 
 
-        return false;
+        if(!username.matches("[a-z]+")) {
+            return true;
+        }
+
+        for(int i = 0 ; i < password.length() ; i++) {
+            char c = password.charAt(i);
+
+            if(!Character.isAlphabetic(c)) {
+                return false;
+            }
+
+        }
+
+        return true;
     }
 }
