@@ -29,6 +29,20 @@ public class Stepdefs {
         WebElement element = driver.findElement(By.linkText("register new user"));
         element.click();
     }
+
+    @Given("user with username {string} with password {string} is successfully created")
+    public void userSuccessfullyCreated(String username, String password) {
+        driver.get("http://localhost:4567/user");
+        createNewUser(username, password, password);
+        driver.get(baseUrl);
+    }
+
+    @Given("user with username {string} and password {string} is tried to be created")
+    public void userNotCreated(String username, String password) {
+        driver.get("http://localhost:4567/user");
+        createNewUser(username, password, password);
+        driver.get(baseUrl);
+    }
     
     @When("correct username {string} and password {string} are given")
     public void correctUsernameAndPasswordAreGiven(String username, String password) {
@@ -47,6 +61,11 @@ public class Stepdefs {
 
     @When("nonexistent username {string} and password {string} are given")
     public void nonexistentUsernameAndPasswordGiven(String username, String password) {
+        logInWith(username, password);
+    }
+
+    @When("not successfully created username {string} and password {string} are given")
+    public void givingNotSuccessfullyCreatedUser(String username, String password) {
         logInWith(username, password);
     }
     
