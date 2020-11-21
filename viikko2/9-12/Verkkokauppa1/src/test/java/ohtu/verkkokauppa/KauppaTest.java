@@ -41,7 +41,7 @@ public class KauppaTest {
     
     @Test
     public void kahdenEriTuotteenOstaminenOikeallaVeloituksella() {
-        when(viite.uusi()).thenReturn(42);
+        when(viite.uusi()).thenReturn(35);
         
         when(varasto.saldo(1)).thenReturn(10);
         when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "maito", 5));
@@ -88,6 +88,60 @@ public class KauppaTest {
         kauppa.tilimaksu("henna", "13579");
         
         verify(pankki).tilisiirto(eq("henna"), anyInt(), eq("13579"), anyString(), eq(6));
+    }
+    
+    @Test
+    public void uusiAsiointiNollaaOstoskorin() {
+        when(viite.uusi()).thenReturn(18)
+                .thenReturn(32);
+        
+        when(varasto.saldo(1)).thenReturn(10);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "leipä", 3));
+        
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("hertta", "360247");
+        
+        verify(pankki).tilisiirto(anyString(), anyInt(), anyString(), anyString(), eq(3));
+        
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("hertta", "360247");
+        
+        // Edellisten ostosten hinta ei ole lisättynä tähän tilisiirtoon
+        verify(pankki).tilisiirto(anyString(), anyInt(), anyString(), anyString(), eq(6));
+    }
+    
+    @Test
+    public void uudessaMaksussaAinaUusiViite() {
+        when(viite.uusi()).thenReturn(13)
+                .thenReturn(26)
+                .thenReturn(39);
+        
+        when(varasto.saldo(1)).thenReturn(10);
+        when(varasto.haeTuote(1)).thenReturn(new Tuote(1, "jäätelö", 6));
+        
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("hannele", "11111");
+
+        //metodia uusi() kutsuttu kerran
+        verify(viite, times(1)).uusi();
+
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("elias", "12345");
+
+        //metodia uusi() kutsuttu kaksi kertaa
+        verify(viite, times(2)).uusi();
+
+        kauppa.aloitaAsiointi();
+        kauppa.lisaaKoriin(1);
+        kauppa.tilimaksu("elisa", "37221");
+
+        // metodia uusi() kutsuttu kolme kertaa      
+        verify(viite, times(3)).uusi();
     }
     
 }
