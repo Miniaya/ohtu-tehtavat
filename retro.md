@@ -1,4 +1,4 @@
-#Retrospektiivi
+# Retrospektiivi
 
 Ryhmäni piti retrospektiivin siten, että pidimme Zoom-kokouksen, jossa jokainen sai vuorollaan sanoa, mikä sprintissä meni omasta mielestä hyvin, ja missä olisi ehkä parantamisen varaa. Tämän jälkeen keskustelimme hieman siitä, millä tavoin voisimme parantaa toimintaamme ryhmänä. Kukaan ryhmäni jäsenistä ei ole aiemmin koodannut ryhmässä, joten nyt ensimmäisellä viikolla parannettavaa löytyi ja työtapojen uudelleen miettiminen oli paikallaan. 
 
